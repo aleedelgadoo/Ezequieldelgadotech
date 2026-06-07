@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["node"],
     "composite": true,    // <-- AÑADE O CAMBIA ESTA LÍNEA
     "noEmit": false,      // <-- AÑADE O CAMBIA ESTA LÍNEA A FALSE
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
