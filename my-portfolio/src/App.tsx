@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import fondo from './fondo.jpeg';
 import fondo2 from './fondo2.jpeg';
-import fondo3 from './fondo3.mp4';
+import imagenFondo from './fondo3.jpeg';
 import satelite from './satelite.png';
 import clip from './clip.png';
 import clip2 from './clip2.png';
@@ -640,17 +640,14 @@ Soy Ezequiel Delgado, programador web y estudiante de 5to año de Ingeniería en
           boxShadow: '0 -40px 80px 0 rgba(0,0,0,0.8)',
           borderRadius: '24px 24px 0 0',
         }}>
-          <video
-            autoPlay muted loop playsInline
-            aria-hidden="true"
-            title="Animación de fondo"
-            style={{
-              position: 'absolute', inset: 0, width: '100%', height: '100%',
-              objectFit: 'cover', zIndex: 0,
-            }}
-          >
-            <source src={fondo3} type="video/mp4" />
-          </video>
+          <img
+  src={imagenFondo}
+  alt="Descripción de la imagen de fondo"
+  style={{
+    position: 'absolute', inset: 0, width: '100%', height: '100%',
+    objectFit: 'cover', zIndex: 0,
+  }}
+/>
 
           {/* FAQ */}
           <section id="FAQ" aria-labelledby="faq-title" className="scroll-mt-32 max-w-3xl mx-auto px-6 py-32" style={{ position: 'relative', zIndex: 2 }}>
