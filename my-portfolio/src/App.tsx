@@ -421,7 +421,6 @@ export default function App() {
   const lastScrollY = useRef(0);
   const lastTime = useRef(performance.now());
   const satelliteLanded = scrollProgress >= SAT_DONE;
-  const [showTransition, setShowTransition] = useState(false);
   const [showFondo3, setShowFondo3] = useState(false);
   const fondo3Ref = useRef<HTMLDivElement>(null);
 
@@ -459,7 +458,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (satelliteLanded) setTimeout(() => setShowTransition(true), 200);
   }, [satelliteLanded]);
 
   useEffect(() => {
@@ -537,11 +535,11 @@ export default function App() {
               {fontsReady && (
                 <>
                   <h1 style={{ fontFamily:'var(--font-display)', fontWeight:800, letterSpacing:'-0.03em', lineHeight:0.9, textTransform:'uppercase' }}>
-                    <span className="hero-line" style={{ fontSize:'clamp(52px, 8.7vw, 101px)', color:'#f8fafc' }}><span>Programador</span></span>
-                    <span className="hero-line" style={{ fontSize:'clamp(61px, 10.2vw, 106px)', color:'#000000' }}><span>Web | Córdoba</span></span>
+                    <span className="hero-line" style={{ fontSize:'clamp(35px, 8.7vw, 35px)', color:'#f8fafc' }}><span>Programador</span></span>
+                    <span className="hero-line" style={{ fontSize:'clamp(35px, 10.2vw, 35px)', color:'#000000' }}><span>Web | Córdoba</span></span>
                   </h1>
                   <p className="fade-up fade-up-2 mt-8 max-w-2xl"
-                    style={{ fontFamily:'var(--font-display)', fontWeight:800, letterSpacing:'-0.02em', lineHeight:1.05, textTransform:'uppercase', fontSize:'clamp(14px, 2.5vw, 21px)', color:'#f8fafc' }}>
+                    style={{ fontFamily:'var(--font-display)', fontWeight:800, letterSpacing:'-0.02em', lineHeight:1.05, textTransform:'uppercase', fontSize:'clamp(23px, 2.5vw, 23px)', color:'#f8fafc' }}>
                     Programador web Fullstack en Córdoba, Argentina. Especializado en paginas web y software para negocios y emprendedores
                   </p>
                 </>
@@ -558,6 +556,15 @@ export default function App() {
         </div>
       </header>
 
+      <div aria-hidden="true" style={{ position:'relative', height:'2px', overflow:'hidden', background:'rgba(248,250,252,0.06)', zIndex:15 }}>
+  <div style={{
+    position:'absolute', top:0, left:0, height:'100%', width:'120px',
+    background:'linear-gradient(90deg, transparent, rgba(26,111,255,0.6), white, rgba(26,111,255,0.6), transparent)',
+    boxShadow:'0 0 12px 4px rgba(26,111,255,0.4)',
+    animation:'lightSweep 2.4s cubic-bezier(0.4,0,0.6,1) infinite',
+  }} />
+</div>
+
       {/* ── CONTENIDO ─────────────────────────────────────────────────────────── */}
       <main style={{
         opacity: satelliteLanded ? 1 : 0,
@@ -566,10 +573,9 @@ export default function App() {
         pointerEvents: satelliteLanded ? 'auto' : 'none',
       }}>
 
-        <SlideTransition visible={showTransition} />
 
         {/* FONDO2 */}
-        <section id="sobre-mi" aria-label="Sobre Mi" className={showTransition ? 'fondo2-slide' : ''} style={{
+        <section id="sobre-mi" aria-label="Sobre Mi" style={{
           backgroundImage:`url(${fondo2})`,
           backgroundSize:'cover',
           backgroundPosition:'center',
