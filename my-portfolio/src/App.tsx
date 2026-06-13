@@ -7,6 +7,7 @@ import clip from './clip.png';
 import clip2 from './clip2.png';
 import persona1 from './persona1.jpeg';
 import persona2 from './persona2.jpg';
+import persona3 from './persona3.png';
 
 // ─── TextType ─────────────────────────────────────────────────────────────────
 interface TextTypeProps {
@@ -163,6 +164,87 @@ const css = `
     100% { transform: scale(1); opacity: 1; }
   }
 
+  @keyframes clientFadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .client-card-anim {
+    animation: clientFadeIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .client-img-wrap {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+  }
+  .client-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+  .client-img-wrap:hover .client-img-overlay {
+    background: rgba(0, 0, 0, 0.62);
+  }
+  .client-visit-label {
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: scale(0.88) translateY(6px);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+    pointer-events: none;
+    border: 2px solid rgba(255,255,255,0.75);
+    padding: 10px 26px;
+    border-radius: 8px;
+  }
+  .client-img-wrap:hover .client-visit-label {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  .carousel-btn {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(248,250,252,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .carousel-btn:hover {
+    background: rgba(26,111,255,0.22);
+    border-color: rgba(26,111,255,0.5);
+    color: #ffffff;
+  }
+  .carousel-dot {
+    height: 8px;
+    width: 8px;
+    border-radius: 4px;
+    background: rgba(248,250,252,0.2);
+    border: none;
+    cursor: pointer;
+    transition: width 0.35s cubic-bezier(0.22,1,0.36,1), background 0.35s;
+    padding: 0;
+  }
+  .carousel-dot.active {
+    width: 28px !important;
+    background: #1a6fff;
+  }
+
   .faq-answer {
     display: grid;
     grid-template-rows: 0fr;
@@ -252,6 +334,97 @@ function SlideTransition({ visible }: { visible: boolean }) {
   useEffect(() => { if (visible && !triggered) setTriggered(true); }, [visible]);
   if (!triggered) return null;
   return null;
+}
+
+// ─── Clients Carousel ─────────────────────────────────────────────────────────
+interface ClientData { img: string; title: string; desc: string; url: string; }
+
+// ↓↓↓ Para agregar más clientes, añadí un objeto nuevo a este array ↓↓↓
+const clientsData: ClientData[] = [
+  {
+    img: persona1,
+    title: 'Angels Beauty',
+    desc: 'Desarrollo de web responsive para mostrar servicios de maquillaje y cursos. Requirió Panel de control',
+    url: 'https://angelsbeauty.pages.dev/',
+  },
+  {
+    img: persona2,
+    title: 'Romina Bruera',
+    desc: 'Desarrollo de sitio web responsive para mostrar servicios de maquillaje, colorimetria y uñas, ademas de cursos de perfeccionamiento. Requirió panel de control',
+    url: 'https://rominabruera.pages.dev/',
+  },
+  {
+    img: persona3,
+    title: 'Barcelona GYM',
+    desc: 'Desarrollo de sitio web con panel de control para gimnasio en Córdoba. Gestión de palnes y servicios.',
+    url: 'https://barcelonagym.pages.dev/',
+  },
+];
+
+function ClientsCarousel() {
+  const [current, setCurrent] = useState(0);
+  const total = clientsData.length;
+  const prev = () => setCurrent(c => (c - 1 + total) % total);
+  const next = () => setCurrent(c => (c + 1) % total);
+  const client = clientsData[current];
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <button onClick={prev} className="carousel-btn" aria-label="Cliente anterior">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        <div key={current} className="client-card-anim" style={{
+          flex: 1, maxWidth: '480px', margin: '0 auto',
+          background: '#000000',
+          border: '1px solid rgba(248,250,252,0.1)',
+          borderRadius: '14px',
+          overflow: 'hidden',
+        }}>
+          <a href={client.url} target="_blank" rel="noopener noreferrer" className="client-img-wrap" aria-label={`Visitar sitio de ${client.title}`}>
+            <img
+              src={client.img}
+              alt={`Sitio web de ${client.title}`}
+              loading="lazy"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+            <div className="client-img-overlay">
+              <span className="client-visit-label">Visitar</span>
+            </div>
+          </a>
+
+          <div style={{ padding: '20px 24px 24px' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.1rem', color: '#f8fafc', marginBottom: '8px' }}>
+              {client.title}
+            </h3>
+            <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', lineHeight: '1.7', color: 'rgba(248,250,252,0.45)', margin: 0 }}>
+              {client.desc}
+            </p>
+          </div>
+        </div>
+
+        <button onClick={next} className="carousel-btn" aria-label="Cliente siguiente">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', alignItems: 'center' }}>
+        {clientsData.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`carousel-dot${i === current ? ' active' : ''}`}
+            aria-label={`Ir al cliente ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 // ─── FAQ Section ──────────────────────────────────────────────────────────────
@@ -606,20 +779,27 @@ Soy Ezequiel Delgado, programador web y estudiante de 5to año de Ingeniería en
                 <h2 style={{ fontFamily:'var(--font-display)', fontWeight:700, letterSpacing:'-0.02em', fontSize:'clamp(28px, 4vw, 48px)', color:'#f8fafc' }} className="drop-shadow-lg">
                   Clientes
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[
-                    { img: persona1, title:'Angels Beauty', desc:'Desarrollo de web responsive para mostrar servicios de maquillaje y cursos. Requirió Panel de control' },
-                    { img: persona2, title:'Romina Bruera', desc:'Desarrollo de sitio web responsive para mostrar servicios de maquillaje, colorimetria y uñas, ademas de cursos de perfeccionamiento. Requirió panel de control' },
-                  ].map((s, idx) => (
-                    <div key={idx} style={{
-                      background: '#000000',
-                      border: '1px solid rgba(248,250,252,0.1)',
-                    }} className="p-8 rounded-2xl space-y-4 hover:border-[#1a6fff]/30 transition-all duration-300 hover:-translate-y-1 group">
-                      <img src={s.img} alt={`Captura de proyecto para ${s.title}`} loading="lazy" width="56" height="56" className="w-14 h-14 rounded-full object-cover transform group-hover:scale-110 transition-transform duration-300" />
-                      <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.1rem', color:'#f8fafc' }}>{s.title}</h3>
-                      <p style={{ fontFamily:'var(--font-sans)', fontSize:'0.875rem', lineHeight:'1.7', color:'rgba(248,250,252,0.45)' }}>{s.desc}</p>
-                    </div>
-                  ))}
+                <ClientsCarousel />
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  background: 'rgba(255,200,0,0.08)',
+                  border: '1px solid rgba(255,200,0,0.22)',
+                  borderRadius: '10px',
+                  padding: '10px 16px',
+                  marginTop: '8px',
+                }}>
+                  <span style={{ fontSize: '1rem', flexShrink: 0 }}>⚠️</span>
+                  <p style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.82rem',
+                    color: 'rgba(255,220,80,0.85)',
+                    margin: 0,
+                    lineHeight: 1.5,
+                  }}>
+                    Algunos sitios están en desarrollo aún, puede haber falta de carga de datos.
+                  </p>
                 </div>
               </article>
 
