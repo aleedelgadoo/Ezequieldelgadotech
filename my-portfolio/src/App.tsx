@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import fondo from './fondo.jpeg';
+import fondo from './fondo.avif';
 import fondo2 from './fondo2.jpeg';
 import imagenFondo from './fondo3.jpeg';
 import satelite from './satelite.png';
@@ -601,7 +601,18 @@ export default function App() {
     const style = document.createElement('style');
     style.textContent = css;
     document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
+
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = fondo;
+    link.type = 'image/avif';
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(style);
+      document.head.removeChild(link);
+    };
   }, []);
 
   useEffect(() => {
@@ -683,9 +694,11 @@ export default function App() {
             position:'absolute', inset:0, zIndex:0,
             backgroundImage:`url(${fondo})`,
             backgroundSize:'cover', backgroundPosition:'center',
+            backgroundAttachment:'fixed',
             transform:`scale(${1 + scrollProgress * 0.18})`,
             transformOrigin:'center center',
             willChange:'transform',
+            contain:'layout style paint',
           }} />
 
           <ParticleCanvas scrollSpeed={scrollSpeed} />
