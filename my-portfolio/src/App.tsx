@@ -111,8 +111,11 @@ const css = `
     to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes satelliteFloat {
-    0%,100% { transform: translateY(0px) rotate(-2deg); }
-    50%      { transform: translateY(-10px) rotate(2deg); }
+    0%   { transform: translateX(0px) translateY(0px) rotate(-2deg); }
+    25%  { transform: translateX(50px) translateY(-15px) rotate(2deg); }
+    50%  { transform: translateX(0px) translateY(-20px) rotate(2deg); }
+    75%  { transform: translateX(-50px) translateY(-15px) rotate(-2deg); }
+    100% { transform: translateX(0px) translateY(0px) rotate(-2deg); }
   }
 
   @keyframes pixelDissolve {
@@ -654,7 +657,6 @@ export default function App() {
     return () => obs.disconnect();
   }, []);
 
-  const satOpacity = scrollProgress < 0.03 ? 0 : Math.min(1, (scrollProgress - 0.03) / 0.12);
 
   // Datos Estructurados (JSON-LD) inyectados de forma invisible para SEO Local y de Marca Personal
   const schemaData = {
@@ -701,9 +703,9 @@ export default function App() {
             position:'absolute', top:'8%',
             left:'5%',
             width:'540px',
-            opacity: satOpacity,
+            opacity: 0.8,
             zIndex:5, pointerEvents:'none',
-            animation: 'satelliteFloat 4s ease-in-out infinite',
+            animation: 'satelliteFloat 6s ease-in-out infinite',
             willChange:'transform',
           }} />
 
