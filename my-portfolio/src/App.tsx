@@ -654,10 +654,7 @@ export default function App() {
     return () => obs.disconnect();
   }, []);
 
-  const satProgress = Math.min(1, scrollProgress / SAT_DONE);
-  const satLeft = 5 + (1 - satProgress) * 125;
   const satOpacity = scrollProgress < 0.03 ? 0 : Math.min(1, (scrollProgress - 0.03) / 0.12);
-  const satRotate = -14 + satProgress * 12;
 
   // Datos Estructurados (JSON-LD) inyectados de forma invisible para SEO Local y de Marca Personal
   const schemaData = {
@@ -695,9 +692,6 @@ export default function App() {
             backgroundImage:`url(${fondo})`,
             backgroundSize:'cover', backgroundPosition:'center',
             backgroundAttachment:'fixed',
-            transform:`scale(${1 + scrollProgress * 0.18})`,
-            transformOrigin:'center center',
-            willChange:'transform',
             contain:'layout style paint',
           }} />
 
@@ -705,13 +699,12 @@ export default function App() {
 
           <img src={satelite} alt="Ilustración 3D de satélite de telecomunicaciones en el espacio" style={{
             position:'absolute', top:'8%',
-            left:`${satLeft}%`,
+            left:'5%',
             width:'540px',
             opacity: satOpacity,
-            transform:`rotate(${satRotate}deg)`,
             zIndex:5, pointerEvents:'none',
-            animation: satelliteLanded ? 'satelliteFloat 4s ease-in-out infinite' : 'none',
-            willChange:'transform, left, opacity',
+            animation: 'satelliteFloat 4s ease-in-out infinite',
+            willChange:'transform',
           }} />
 
           <div aria-hidden="true" className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-transparent via-[#1a6fff]/30 to-transparent z-10 fade-up fade-up-1" />
