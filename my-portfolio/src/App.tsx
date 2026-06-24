@@ -268,6 +268,8 @@ const css = `
   .faq-answer > div { overflow: hidden; }
 
   @media (max-width: 767px) {
+    .hero-content-row { flex-direction: column !important; gap: 28px !important; }
+    .hero-video-wrap { width: 100% !important; }
     .sobre-mi-flex { flex-direction: column !important; min-height: auto !important; }
     .sobre-mi-img { width: 100% !important; min-height: 260px !important; }
     .sobre-mi-img > div { background: linear-gradient(to bottom, transparent 60%, #f5f4f0) !important; }
@@ -661,6 +663,8 @@ export default function App() {
   const satelliteLanded = scrollProgress >= SAT_DONE;
   const [showFondo3, setShowFondo3] = useState(false);
   const fondo3Ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   useEffect(() => {
     const style = document.createElement('style');
@@ -774,7 +778,9 @@ export default function App() {
           <div aria-hidden="true" className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-transparent via-[#1a6fff]/30 to-transparent z-10 fade-up fade-up-1" />
 
           <div className="relative z-20 h-full flex flex-col justify-center px-6 md:px-16">
-            <div className="max-w-4xl">
+            <div className="hero-content-row" style={{ display:'flex', alignItems:'center', gap:'48px', flexWrap:'wrap' }}>
+              {/* Texto */}
+              <div style={{ flex:'1 1 320px', minWidth:0 }}>
               {fontsReady && (
                 <>
                   <h1 style={{ fontFamily:'var(--font-display)', fontWeight:800, letterSpacing:'-0.03em', lineHeight:0.9, textTransform:'uppercase' }}>
@@ -799,14 +805,49 @@ export default function App() {
                   </div>
                 </>
               )}
-            </div>
+              </div>{/* fin texto */}
+
+              {/* Video */}
+              <div
+                className="hero-video-wrap"
+                style={{ flex:'0 0 auto', width:'clamp(260px, 42vw, 580px)', position:'relative', cursor:'pointer', borderRadius:'14px', overflow:'hidden', boxShadow:'0 8px 40px rgba(0,0,0,0.5)' }}
+                onClick={() => {
+                  const v = videoRef.current;
+                  if (!v) return;
+                  if (v.paused) { v.play(); setVideoPlaying(true); }
+                  else { v.pause(); setVideoPlaying(false); }
+                }}
+              >
+                <video
+                  ref={videoRef}
+                  loop playsInline
+                  style={{ width:'100%', display:'block' }}
+                >
+                  <source src="/assets/video.mp4" type="video/mp4" />
+                </video>
+                {/* Overlay play button */}
+                {!videoPlaying && (
+                  <div style={{
+                    position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center',
+                    background:'rgba(0,0,0,0.35)', backdropFilter:'blur(2px)',
+                  }}>
+                    <div style={{
+                      width:'64px', height:'64px', borderRadius:'50%',
+                      background:'rgba(255,255,255,0.15)', border:'2px solid rgba(255,255,255,0.6)',
+                      display:'flex', alignItems:'center', justifyContent:'center',
+                      transition:'transform 0.2s ease',
+                    }}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <polygon points="6,3 20,12 6,21"/>
+                      </svg>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+            </div>{/* fin hero-content-row */}
           </div>
 
-          <div aria-hidden="true" className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 fade-up fade-up-3 flex flex-col items-center gap-2"
-            style={{ opacity: satelliteLanded ? 0 : 0.3, transition:'opacity 0.4s ease' }}>
-            <span style={{ fontFamily:'var(--font-mono)', fontSize:'10px', textTransform:'uppercase', letterSpacing:'0.15em' }}>scroll</span>
-            <span className="w-[1px] h-8 bg-white/30 animate-pulse" />
-          </div>
 
         </div>
       </header>
