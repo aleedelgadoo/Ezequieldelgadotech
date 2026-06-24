@@ -178,7 +178,8 @@ const css = `
     display: block;
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    flex: 1;
+    min-height: 300px;
     overflow: hidden;
     border-radius: 12px 12px 0 0;
     cursor: pointer;
@@ -381,11 +382,13 @@ function ClientsCarousel() {
         </button>
 
         <div key={current} className="client-card-anim" style={{
-          flex: 1, maxWidth: '480px', margin: '0 auto',
+          flex: 1, maxWidth: '300px', margin: '0 auto', minHeight: '500px',
           background: '#000000',
           border: '1px solid rgba(248,250,252,0.1)',
           borderRadius: '14px',
           overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
         }}>
           <a href={client.url} target="_blank" rel="noopener noreferrer" className="client-img-wrap" aria-label={`Visitar sitio de ${client.title}`}>
             <img
@@ -767,25 +770,22 @@ export default function App() {
       }}>
 
 
-        {/* FONDO2 */}
+        {/* FONDO2 - SOBRE MÍ */}
         <section id="sobre-mi" aria-label="Sobre Mi" style={{
-          backgroundImage:`url(${fondo2})`,
-          backgroundSize:'cover',
-          backgroundPosition:'center',
-          backgroundAttachment:'local',
           position: 'relative',
           zIndex: 10,
           borderRadius: '24px 24px 0 0',
           boxShadow: '0 -40px 80px 0 rgba(0,0,0,0.8)',
+          display: 'flex',
+          minHeight: '100vh',
         }}>
-          <div style={{ padding:'96px 0' }}>
-            <div className="max-w-7xl mx-auto px-8 md:px-16 space-y-24">
-
+          <div style={{ flex: 1, padding: '96px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div className="max-w-3xl">
               {/* PERFIL */}
-              <article className="scroll-mt-32 max-w-3xl">
+              <article className="scroll-mt-32">
                 <div className="flex flex-row items-center gap-6 mb-6">
                   <h2 style={{ fontFamily:'var(--font-display)', fontWeight:700, letterSpacing:'-0.02em', lineHeight:1.1, fontSize:'clamp(28px, 4vw, 48px)', color:'#f8fafc' }} className="drop-shadow-lg">
-                    Sobre Mí <br /> 
+                    Sobre Mí <br />
                   </h2>
                   <ClipToggler />
                 </div>
@@ -793,36 +793,54 @@ export default function App() {
 Soy Ezequiel Delgado, programador web y estudiante de 5to año de Ingeniería en Sistemas de Información en la UTN-FRC (Córdoba). Me apasiona diseñar soluciones de software para negocios y emprendedores con el objetivo de liberar su potencial.
                 </p>
               </article>
+            </div>
+          </div>
 
-              {/* SERVICIOS */}
-              <article id="servicios" className="scroll-mt-32 space-y-10">
-                <h2 style={{ fontFamily:'var(--font-display)', fontWeight:700, letterSpacing:'-0.02em', fontSize:'clamp(28px, 4vw, 48px)', color:'#f8fafc' }} className="drop-shadow-lg">
-                  Clientes
-                </h2>
-                <ClientsCarousel />
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  background: 'rgba(255,200,0,0.08)',
-                  border: '1px solid rgba(255,200,0,0.22)',
-                  borderRadius: '10px',
-                  padding: '10px 16px',
-                  marginTop: '8px',
-                }}>
-                  <span style={{ fontSize: '1rem', flexShrink: 0 }}>⚠️</span>
-                  <p style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.82rem',
-                    color: 'rgba(255,220,80,0.85)',
-                    margin: 0,
-                    lineHeight: 1.5,
-                  }}>
-                    Algunos sitios están en desarrollo aún, puede haber falta de carga de datos.
-                  </p>
-                </div>
-              </article>
+          <div style={{
+            flex: 1,
+            backgroundImage:`url(${fondo2})`,
+            backgroundSize:'cover',
+            backgroundPosition:'center',
+            backgroundAttachment:'local',
+          }} />
+        </section>
 
+        <div aria-hidden="true" style={{ position:'relative', height:'2px', overflow:'hidden', background:'rgba(248,250,252,0.06)', zIndex:15 }}>
+          <div style={{
+            position:'absolute', top:0, left:0, height:'100%', width:'120px',
+            background:'linear-gradient(90deg, transparent, rgba(26,111,255,0.6), white, rgba(26,111,255,0.6), transparent)',
+            boxShadow:'0 0 12px 4px rgba(26,111,255,0.4)',
+            animation:'lightSweep 2.4s cubic-bezier(0.4,0,0.6,1) infinite',
+          }} />
+        </div>
+
+        {/* SECCIÓN CLIENTES */}
+        <section id="servicios" style={{ background: '#0f172a', padding: '80px 24px', position: 'relative', zIndex: 10 }}>
+          <div className="max-w-7xl mx-auto">
+            <h2 style={{ fontFamily:'var(--font-display)', fontWeight:700, letterSpacing:'-0.02em', fontSize:'clamp(28px, 4vw, 48px)', color:'#f8fafc', marginBottom: '48px' }} className="drop-shadow-lg">
+              Clientes
+            </h2>
+            <ClientsCarousel />
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              background: 'rgba(255,200,0,0.08)',
+              border: '1px solid rgba(255,200,0,0.22)',
+              borderRadius: '10px',
+              padding: '10px 16px',
+              marginTop: '32px',
+            }}>
+              <span style={{ fontSize: '1rem', flexShrink: 0 }}>⚠️</span>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.82rem',
+                color: 'rgba(255,220,80,0.85)',
+                margin: 0,
+                lineHeight: 1.5,
+              }}>
+                Algunos sitios están en desarrollo aún, puede haber falta de carga de datos.
+              </p>
             </div>
           </div>
         </section>
