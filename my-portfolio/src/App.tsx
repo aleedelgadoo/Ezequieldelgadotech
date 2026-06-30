@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import fondo from './fondo.avif';
-import fondo2 from './fondo2.jpeg';
-import imagenFondo from './fondo3.jpeg';
-import satelite from './satelite.png';
-import clip from './clip.png';
-import clip2 from './clip2.png';
-import persona1 from './persona1.jpeg';
-import persona2 from './persona2.jpg';
-import persona3 from './persona3.png';
+import fondo from './fondo.webp';
+import fondo2 from './fondo2.webp';
+import imagenFondo from './fondo3.webp';
+import satelite from './satelite.webp';
+import clip from './clip.webp';
+import clip2 from './clip2.webp';
+import persona1 from './persona1.webp';
+import persona2 from './persona2.webp';
+import persona3 from './persona3.webp';
 
 // ─── TextType ─────────────────────────────────────────────────────────────────
 interface TextTypeProps {
@@ -441,6 +441,7 @@ function ClientsCarousel() {
                 src={client.img}
                 alt={`Sitio web de ${client.title}`}
                 loading="lazy"
+                decoding="async"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s ease' }}
               />
               <div className="client-img-overlay">
@@ -675,7 +676,7 @@ export default function App() {
     link.rel = 'preload';
     link.as = 'image';
     link.href = fondo;
-    link.type = 'image/avif';
+    link.type = 'image/webp';
     document.head.appendChild(link);
 
     return () => {
@@ -765,7 +766,7 @@ export default function App() {
 
           <ParticleCanvas scrollSpeed={scrollSpeed} />
 
-          <img src={satelite} alt="Ilustración 3D de satélite de telecomunicaciones en el espacio" style={{
+          <img src={satelite} alt="Ilustración 3D de satélite de telecomunicaciones en el espacio" decoding="async" style={{
             position:'absolute', top:'8%',
             left:'5%',
             width:'540px',
@@ -821,6 +822,8 @@ export default function App() {
                 <video
                   ref={videoRef}
                   loop playsInline
+                  preload="none"
+                  poster="/assets/video-poster.webp"
                   style={{ width:'100%', display:'block' }}
                 >
                   <source src="/assets/video.mp4" type="video/mp4" />
@@ -879,10 +882,9 @@ export default function App() {
             {/* Imagen izquierda */}
             <div className="sobre-mi-img" style={{
               width:'42%', flexShrink:0,
-              backgroundImage:`url(${fondo2})`,
-              backgroundSize:'cover', backgroundPosition:'center',
-              position:'relative',
+              position:'relative', overflow:'hidden',
             }}>
+              <img src={fondo2} alt="" loading="lazy" decoding="async" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'center' }} />
               <div style={{ position:'absolute', inset:0, background:'linear-gradient(to right, transparent 60%, #f5f4f0)', pointerEvents:'none' }} />
             </div>
 
@@ -936,7 +938,7 @@ export default function App() {
             </div>
             {/* Mapa derecha */}
             <div style={{ flex: 1, minWidth: '280px' }}>
-              <img src="/assets/world-map.svg" alt="Mapa mundial" style={{ width: '100%', display: 'block', filter: 'invert(1)', opacity: 0.85 }} aria-hidden="true" />
+              <img src="/assets/world-map.svg" alt="Mapa mundial" loading="lazy" decoding="async" style={{ width: '100%', display: 'block', filter: 'invert(1)', opacity: 0.85 }} aria-hidden="true" />
             </div>
           </div>
         </section>
@@ -944,9 +946,9 @@ export default function App() {
         {/* FRANJA DE MARCAS/SPONSORS */}
         <section style={{ background: '#000000', padding: '20px 24px', position: 'relative', zIndex: 10 }}>
           <div className="max-w-7xl mx-auto flex items-center justify-center gap-12 flex-wrap">
-            <img src="/assets/marca1.png" alt="Marca 1" style={{ height: '44px', objectFit: 'contain' }} />
-            <img src="/assets/marca2.png" alt="Marca 2" style={{ height: '58px', objectFit: 'contain', marginTop: '8px' }} />
-            <img src="/assets/marca3.png" alt="Marca 3" style={{ height: '58px', objectFit: 'contain' }} />
+            <img src="/assets/marca1.webp" alt="Marca 1" loading="lazy" decoding="async" style={{ height: '44px', objectFit: 'contain' }} />
+            <img src="/assets/marca2.webp" alt="Marca 2" loading="lazy" decoding="async" style={{ height: '58px', objectFit: 'contain', marginTop: '8px' }} />
+            <img src="/assets/marca3.webp" alt="Marca 3" loading="lazy" decoding="async" style={{ height: '58px', objectFit: 'contain' }} />
           </div>
         </section>
 
@@ -1100,12 +1102,12 @@ export default function App() {
         <div style={{
           width: '100%',
           height: 'clamp(280px, 40vw, 480px)',
-          backgroundImage: `url(${imagenFondo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           position: 'relative',
           zIndex: 10,
-        }} aria-hidden="true" />
+          overflow: 'hidden',
+        }} aria-hidden="true">
+          <img src={imagenFondo} alt="" loading="lazy" decoding="async" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center', display:'block' }} />
+        </div>
 
       </main>
 
