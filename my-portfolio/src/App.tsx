@@ -494,7 +494,7 @@ function ClientsCarousel() {
 // ─── FAQ Section ──────────────────────────────────────────────────────────────
 const faqs = [
   { q: '¿Que tipo de paginas desarrollas?', a: 'Principalmente LandingPages estaticas, Paginas con panel de control y Software local.' },
-  { q: '¿Cuanto cuesta desarrollar una Pagina Web?', a: 'El precio depende de la complejidad del proyecto, la cantidad de secciones, las funcionalidades requeridas y el nivel de personalización. Solicita un presupuesto y recibirás una propuesta adaptada. Si necesitas una aproximación, las Landing Pages parten de los U$D 80 / ARS 150.000' },
+  { q: '¿Cuanto cuesta desarrollar una Pagina Web?', a: 'El precio depende de la complejidad del proyecto, la cantidad de secciones, las funcionalidades requeridas y el nivel de personalización. Solicita un presupuesto y recibirás una propuesta adaptada.' },
   { q: '¿Cuanto tiempo dura el desarrollo?', a: 'El tiempo de desarrollo varía según la complejidad del proyecto. En general, las Landing Pages pueden desarrollarse en 1-3 dias, mientras que proyectos más complejos pueden tomar una o varias semanas' },
   { q: '¿Desarrollas sistemas de Gestión para negocios?', a: 'Sí. Desarrollo sistemas web personalizados para administrar clientes, ventas, turnos, inventario, pedidos, empleados y otros procesos específicos de cada negocio.' },
   { q: '¿Necesito conocimientos técnicos para administrar mi sitio web?', a: 'No. El objetivo es que puedas utilizar tu sitio o sistema de forma sencilla. Además, recibirás orientación sobre las funciones principales.' },
