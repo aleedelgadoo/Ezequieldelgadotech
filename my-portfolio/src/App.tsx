@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import fondo from './fondo.webp';
 import fondo2 from './fondo2.webp';
 import imagenFondo from './fondo3.webp';
 import satelite from './satelite.webp';
@@ -8,6 +7,8 @@ import clip2 from './clip2.webp';
 import persona1 from './persona1.webp';
 import persona2 from './persona2.webp';
 import persona3 from './persona3.webp';
+
+const fondo = '/assets/fondo.webp';
 
 // ─── TextType ─────────────────────────────────────────────────────────────────
 interface TextTypeProps {
@@ -671,18 +672,7 @@ export default function App() {
     const style = document.createElement('style');
     style.textContent = css;
     document.head.appendChild(style);
-
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = fondo;
-    link.type = 'image/webp';
-    document.head.appendChild(link);
-
-    return () => {
-      document.head.removeChild(style);
-      document.head.removeChild(link);
-    };
+    return () => { document.head.removeChild(style); };
   }, []);
 
   useEffect(() => {
